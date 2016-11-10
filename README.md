@@ -24,7 +24,7 @@
 
 ## Git guidelines
 
-To make changes to the code, first clone the repository to your computer using `git clone https://github.com/relex/cruncher.git`.
+To make changes to the code, first clone the repository to your computer using `git clone https://github.com/eaxsi/Electronic-parking-disc.git`.
 
 In Git, the main version of the project (*the master branch*) should only contain working code. When doing changes to the code, first create a new *branch*. Branches can be seen as a new copy of the code, changes to this branch will not affect the master branch. This way, developers can break things without it affecting the project as a whole. Creating a new branch is done by `git checkout -b branchnamehere` (to switch between existing branches, drop the `-b`).
 
