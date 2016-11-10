@@ -4,7 +4,7 @@
 
 `cd directoryname`: Change directory
 
-`ls` tai `dir`: List the contents of a directory
+`ls` or `dir`: List the contents of a directory
 
 ## Git cheat sheet
 
