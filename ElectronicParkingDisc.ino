@@ -27,7 +27,17 @@ void setup() {
 
   //Initialize state
   state.screen = PARKIFY_SPLASH;
-  stateChanged = true;
+
+  //Draw the splash screen
+  render();
+
+  delay(3000);
+
+  //Switch to the scroller usage state
+  state.screen = SCROLLER_USAGE;
+  render();
+
+  
 }
 
 void loop() {
@@ -48,7 +58,8 @@ void render() {
       break;
 
     case SCROLLER_USAGE:
-      Eink.EinkP8x16Str(14, 8, "SCROLL USING THE SELECTOR");
+      Eink.EinkP8x16Str(14, 8, "SCROLL USING");
+      Eink.EinkP8x16Str(10, 8, "THE SELECTOR");
       break;
 
     case BUTTON_USAGE:
