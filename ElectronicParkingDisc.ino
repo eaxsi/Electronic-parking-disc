@@ -2,6 +2,16 @@
 
 E_ink Eink;
 
+typedef enum {
+  PARKIFY_SPLASH,
+  SCROLLER_USAGE,
+  BUTTON_USAGE
+} Screen;
+
+typedef struct State {
+  Screen screen;
+};
+
 void setup() {
   pinMode(8,OUTPUT);
   digitalWrite(8, LOW);
