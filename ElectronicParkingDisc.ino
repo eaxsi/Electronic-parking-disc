@@ -41,6 +41,14 @@ void render() {
     case PARKIFY_SPLASH:
       Eink.EinkP8x16Str(14, 8, "Parkify");
       break;
+
+    case SCROLLER_USAGE:
+      Eink.EinkP8x16Str(14, 8, "SCROLL USING THE SELECTOR");
+      break;
+
+    case BUTTON_USAGE:
+      Eink.EinkP8x16Str(14, 8, "CONTINUE USING THE TOP BUTTON");
+      break;
     
   }
   
