@@ -8,6 +8,11 @@ typedef enum {
   BUTTON_USAGE
 } Screen;
 
+typedef enum {
+  UP,
+  DOWN
+} Direction;
+
 struct State {
   Screen screen;
 } state;
@@ -53,5 +58,15 @@ void render() {
   }
   
   Eink.RefreshScreen();
+}
+
+//Controller for the top button
+void buttonController() {
+  
+}
+
+//Controller for the scroller
+void buttonController(Direction direction) {
+  
 }
 
