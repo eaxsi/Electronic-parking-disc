@@ -64,7 +64,8 @@ void render() {
       break;
 
     case BUTTON_USAGE:
-      Eink.EinkP8x16Str(14, 8, "CONTINUE USING THE TOP BUTTON");
+      Eink.EinkP8x16Str(14, 8, "CONTINUE USING");
+      Eink.EinkP8x16Str(14, 8, "THE TOP BUTTON");
       break;
     
   }
