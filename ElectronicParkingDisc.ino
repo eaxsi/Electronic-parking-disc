@@ -8,22 +8,32 @@ typedef enum {
   BUTTON_USAGE
 } Screen;
 
-typedef struct State {
+struct State {
   Screen screen;
 };
+
+boolean stateChanged = false;
 
 void setup() {
   pinMode(8,OUTPUT);
   digitalWrite(8, LOW);
   
   Eink.InitEink();
-  Eink.ClearScreen();
 
-  Eink.EinkP8x16Str(14, 8, "Parkify");
-
-  Eink.RefreshScreen();
+  stateChanged = true;
 }
 
 void loop() {
-
+  if (stateChanged) {
+    render();
+    stateChanged = false;
+  }
 }
+
+//Redraws the screen according to the current state
+void render() {
+  Eink.ClearScreen();
+  Eink.EinkP8x16Str(14, 8, "Parkified");
+  Eink.RefreshScreen();
+}
+
