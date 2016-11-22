@@ -10,7 +10,7 @@ typedef enum {
 
 struct State {
   Screen screen;
-};
+} state;
 
 boolean stateChanged = false;
 
@@ -20,6 +20,8 @@ void setup() {
   
   Eink.InitEink();
 
+  //Initialize state
+  state.screen = PARKIFY_SPLASH;
   stateChanged = true;
 }
 
@@ -33,7 +35,15 @@ void loop() {
 //Redraws the screen according to the current state
 void render() {
   Eink.ClearScreen();
-  Eink.EinkP8x16Str(14, 8, "Parkified");
+
+  switch (state.screen) {
+
+    case PARKIFY_SPLASH:
+      Eink.EinkP8x16Str(14, 8, "Parkify");
+      break;
+    
+  }
+  
   Eink.RefreshScreen();
 }
 
