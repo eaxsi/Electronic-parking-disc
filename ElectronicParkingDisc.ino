@@ -80,6 +80,11 @@ void buttonController() {
 
 //Controller for the scroller
 void buttonController(Direction direction) {
-  
+  switch (state.screen) {
+    case SCROLLER_USAGE:
+      state.screen = BUTTON_USAGE;
+      stateChanged = true;
+      break;
+  }
 }
 
