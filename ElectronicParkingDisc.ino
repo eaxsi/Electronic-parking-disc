@@ -49,6 +49,7 @@ void loop() {
 
 //Redraws the screen according to the current state
 void render() {
+  Eink.InitEink();
   Eink.ClearScreen();
 
   switch (state.screen) {
