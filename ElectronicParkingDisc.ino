@@ -22,9 +22,9 @@ boolean stateChanged = false;
 void setup() {
   pinMode(8,OUTPUT);
   digitalWrite(8, LOW);
-  
-  Eink.InitEink();
 
+  Eink.InitEink();
+  
   //Initialize state
   state.screen = PARKIFY_SPLASH;
 
@@ -37,10 +37,23 @@ void setup() {
   state.screen = SCROLLER_USAGE;
   render();
 
+  //For remote controlling (mostly for debugging purposes)
+  Serial.begin(9600);
   
 }
 
 void loop() {
+  if (Serial.available()) {
+    int in = Serial.parseInt();
+    if (in == 1) {
+      scrollController(DOWN);
+    } else if (in == 2) {
+      scrollController(UP);
+    } else {
+      buttonController();
+    }
+  }
+  
   if (stateChanged) {
     render();
     stateChanged = false;
@@ -65,7 +78,7 @@ void render() {
 
     case BUTTON_USAGE:
       Eink.EinkP8x16Str(14, 8, "CONTINUE USING");
-      Eink.EinkP8x16Str(14, 8, "THE TOP BUTTON");
+      Eink.EinkP8x16Str(10, 8, "THE TOP BUTTON");
       break;
     
   }
@@ -79,7 +92,7 @@ void buttonController() {
 }
 
 //Controller for the scroller
-void buttonController(Direction direction) {
+void scrollController(Direction direction) {
   switch (state.screen) {
     case SCROLLER_USAGE:
       state.screen = BUTTON_USAGE;
