@@ -5,7 +5,11 @@ E_ink Eink;
 typedef enum {
   PARKIFY_SPLASH,
   SCROLLER_USAGE,
-  BUTTON_USAGE
+  BUTTON_USAGE,
+  SET_HOUR1,
+  SET_HOUR2,
+  SET_MIN1,
+  SET_MIN2
 } Screen;
 
 typedef enum {
@@ -15,6 +19,8 @@ typedef enum {
 
 struct State {
   Screen screen;
+  char hour;
+  char minute;
 } state;
 
 boolean stateChanged = false;
@@ -27,6 +33,8 @@ void setup() {
   
   //Initialize state
   state.screen = PARKIFY_SPLASH;
+  state.hour = 0;
+  state.minute = 0;
 
   //Draw the splash screen
   render();
@@ -88,7 +96,7 @@ void render() {
 
 //Controller for the top button
 void buttonController() {
-  
+
 }
 
 //Controller for the scroller
