@@ -88,6 +88,10 @@ void render() {
       Eink.EinkP8x16Str(14, 8, "CONTINUE USING");
       Eink.EinkP8x16Str(10, 8, "THE TOP BUTTON");
       break;
+
+    case SET_HOUR1:
+      Eink.EinkP8x16Str(14, 8, "00:00");
+      break; 
     
   }
   
