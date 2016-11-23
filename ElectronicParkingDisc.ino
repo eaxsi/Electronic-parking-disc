@@ -96,7 +96,12 @@ void render() {
 
 //Controller for the top button
 void buttonController() {
-
+  switch (state.screen) {
+    case BUTTON_USAGE:
+      state.screen = SET_HOUR1;
+      stateChanged = true;
+      break;
+  }
 }
 
 //Controller for the scroller
