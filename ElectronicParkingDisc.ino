@@ -24,6 +24,7 @@ struct State {
 } state;
 
 boolean stateChanged = false;
+char *time_string = (char *) malloc(6 * sizeof(char)); //Used by the method get_time_string to return the state's current time as a string
 
 void setup() {
   pinMode(8,OUTPUT);
@@ -90,12 +91,23 @@ void render() {
       break;
 
     case SET_HOUR1:
-      Eink.EinkP8x16Str(14, 8, "00:00");
+      Eink.EinkP8x16Str(14, 8, get_time_string()); //Print the time on the format 13:19 with trailing zeroes (e.g. 00:00)
       break; 
     
   }
   
   Eink.RefreshScreen();
+}
+
+//Returns the state's current time in the format 13:19 with trailing zeroeos (e.g. 00:00) 
+char *get_time_string() {
+  time_string[0] = (char) (state.hour/10 + '0');
+  time_string[1] = (char) (state.hour%10 + '0');
+  time_string[2] = ':';
+  time_string[3] = (char) (state.minute/10 + '0');
+  time_string[4] = (char) (state.minute%10 + '0');
+  time_string[5] = 0;
+  return time_string;
 }
 
 //Controller for the top button
