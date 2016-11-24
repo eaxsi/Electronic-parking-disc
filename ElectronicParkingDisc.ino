@@ -13,8 +13,8 @@ typedef enum {
 } Screen;
 
 typedef enum {
-  UP,
-  DOWN
+  UP = 1,
+  DOWN = -1
 } Direction;
 
 struct State {
@@ -126,6 +126,16 @@ void scrollController(Direction direction) {
   switch (state.screen) {
     case SCROLLER_USAGE:
       state.screen = BUTTON_USAGE;
+      stateChanged = true;
+      break;
+
+    case SET_HOUR1:
+      state.hour += direction * 10;
+      if (state.hour >= 24) {
+        state.hour -= 30;
+      } else if (state.hour < 0) {
+        state.hour += 30;
+      }
       stateChanged = true;
       break;
   }
