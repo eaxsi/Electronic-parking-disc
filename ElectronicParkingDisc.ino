@@ -91,6 +91,7 @@ void render() {
       break;
 
     case SET_HOUR1:
+      Eink.DisplayChar(13, 8, '_');
       Eink.EinkP8x16Str(14, 8, get_time_string());
       break; 
     
