@@ -91,7 +91,7 @@ void render() {
       break;
 
     case SET_HOUR1:
-      Eink.EinkP8x16Str(14, 8, get_time_string()); //Print the time on the format 13:19 with trailing zeroes (e.g. 00:00)
+      Eink.EinkP8x16Str(14, 8, get_time_string());
       break; 
     
   }
