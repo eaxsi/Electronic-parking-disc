@@ -2,8 +2,8 @@
 
 E_ink Eink;
 const int BUTTON_PORT = 2;
-const int SCROLL_DOWN_PORT = 3;
-const int SCROLL_UP_PORT = 4;
+const int SCROLL_DOWN_PORT = 4;
+const int SCROLL_UP_PORT = 3;
 
 typedef enum {
   PARKIFY_SPLASH,
