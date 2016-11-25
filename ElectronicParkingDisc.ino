@@ -1,6 +1,9 @@
 #include <SmartEink.h>
 
 E_ink Eink;
+const int BUTTON_PORT = 2;
+const int SCROLL_DOWN_PORT = 3;
+const int SCROLL_UP_PORT = 4;
 
 typedef enum {
   PARKIFY_SPLASH,
@@ -23,14 +26,25 @@ struct State {
   char minute;
 } state;
 
-boolean stateChanged = false;
+boolean state_changed = false;
+boolean has_been_clicked = false;
+boolean has_been_scrolled_down = false;
+boolean has_been_scrolled_up = false;
 char *time_string = (char *) malloc(6 * sizeof(char)); //Used by the method get_time_string to return the state's current time as a string
 
 void setup() {
+  //Setup for the Eink display
   pinMode(8,OUTPUT);
   digitalWrite(8, LOW);
-
   Eink.InitEink();
+
+  //Setup for the button and scrollers
+  pinMode(BUTTON_PORT, INPUT);
+  pinMode(SCROLL_DOWN_PORT, INPUT);
+  pinMode(SCROLL_UP_PORT, INPUT);
+  digitalWrite(BUTTON_PORT, HIGH);
+  digitalWrite(SCROLL_DOWN_PORT, HIGH);
+  digitalWrite(SCROLL_UP_PORT, HIGH);
   
   //Initialize state
   state.screen = PARKIFY_SPLASH;
@@ -62,10 +76,37 @@ void loop() {
       buttonController();
     }
   }
+
+  if (digitalRead(BUTTON_PORT) == LOW && !has_been_clicked) {
+    has_been_clicked = true;
+    buttonController();
+  }
+
+  if (digitalRead(BUTTON_PORT) == HIGH && has_been_clicked) {
+    has_been_clicked = false;
+  }
+
+  if (digitalRead(SCROLL_DOWN_PORT) == LOW && !has_been_scrolled_down) {
+    has_been_scrolled_down = true;
+    scrollController(DOWN);
+  }
+
+  if (digitalRead(SCROLL_UP_PORT) == LOW && !has_been_scrolled_up) {
+    has_been_scrolled_up = true;
+    scrollController(UP);
+  }
+
+  if (digitalRead(SCROLL_DOWN_PORT) == HIGH && has_been_scrolled_down) {
+    has_been_scrolled_down = false;
+  }
+
+  if (digitalRead(SCROLL_UP_PORT) == HIGH && has_been_scrolled_up) {
+    has_been_scrolled_up = false;
+  }
   
-  if (stateChanged) {
+  if (state_changed) {
     render();
-    stateChanged = false;
+    state_changed = false;
   }
 }
 
@@ -116,7 +157,7 @@ void buttonController() {
   switch (state.screen) {
     case BUTTON_USAGE:
       state.screen = SET_HOUR1;
-      stateChanged = true;
+      state_changed = true;
       break;
   }
 }
@@ -126,7 +167,7 @@ void scrollController(Direction direction) {
   switch (state.screen) {
     case SCROLLER_USAGE:
       state.screen = BUTTON_USAGE;
-      stateChanged = true;
+      state_changed = true;
       break;
 
     case SET_HOUR1:
@@ -136,7 +177,7 @@ void scrollController(Direction direction) {
       } else if (state.hour < 0) {
         state.hour += 30;
       }
-      stateChanged = true;
+      state_changed = true;
       break;
   }
 }
