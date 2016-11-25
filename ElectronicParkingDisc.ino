@@ -135,6 +135,24 @@ void render() {
       Eink.DisplayChar(13, 8, '_');
       Eink.EinkP8x16Str(14, 8, get_time_string());
       break; 
+
+      
+    case SET_HOUR2:
+      Eink.DisplayChar(13, 16, '_');
+      Eink.EinkP8x16Str(14, 8, get_time_string());
+      break; 
+
+      
+    case SET_MIN1:
+      Eink.DisplayChar(13, 32, '_');
+      Eink.EinkP8x16Str(14, 8, get_time_string());
+      break; 
+
+      
+    case SET_MIN2:
+      Eink.DisplayChar(13, 40, '_');
+      Eink.EinkP8x16Str(14, 8, get_time_string());
+      break; 
     
   }
   
