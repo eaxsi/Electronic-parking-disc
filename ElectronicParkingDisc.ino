@@ -69,17 +69,17 @@ void loop() {
   if (Serial.available()) {
     int in = Serial.parseInt();
     if (in == 1) {
-      scrollController(DOWN);
+      scroll_controller(DOWN);
     } else if (in == 2) {
-      scrollController(UP);
+      scroll_controller(UP);
     } else {
-      buttonController();
+      button_controller();
     }
   }
 
   if (digitalRead(BUTTON_PORT) == LOW && !has_been_clicked) {
     has_been_clicked = true;
-    buttonController();
+    button_controller();
   }
 
   if (digitalRead(BUTTON_PORT) == HIGH && has_been_clicked) {
@@ -88,12 +88,12 @@ void loop() {
 
   if (digitalRead(SCROLL_DOWN_PORT) == LOW && !has_been_scrolled_down) {
     has_been_scrolled_down = true;
-    scrollController(DOWN);
+    scroll_controller(DOWN);
   }
 
   if (digitalRead(SCROLL_UP_PORT) == LOW && !has_been_scrolled_up) {
     has_been_scrolled_up = true;
-    scrollController(UP);
+    scroll_controller(UP);
   }
 
   if (digitalRead(SCROLL_DOWN_PORT) == HIGH && has_been_scrolled_down) {
@@ -153,7 +153,7 @@ char *get_time_string() {
 }
 
 //Controller for the top button
-void buttonController() {
+void button_controller() {
   switch (state.screen) {
     case BUTTON_USAGE:
       state.screen = SET_HOUR1;
@@ -163,7 +163,7 @@ void buttonController() {
 }
 
 //Controller for the scroller
-void scrollController(Direction direction) {
+void scroll_controller(Direction direction) {
   switch (state.screen) {
     case SCROLLER_USAGE:
       state.screen = BUTTON_USAGE;
