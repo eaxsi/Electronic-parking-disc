@@ -159,6 +159,22 @@ void button_controller() {
       state.screen = SET_HOUR1;
       state_changed = true;
       break;
+
+    case SET_HOUR1:
+      state.screen = SET_HOUR2;
+      state_changed = true;
+      break;
+      
+    case SET_HOUR2:
+      state.screen = SET_MIN1;
+      state_changed = true;
+      break;
+
+    
+    case SET_MIN1:
+      state.screen = SET_MIN2;
+      state_changed = true;
+      break;
   }
 }
 
