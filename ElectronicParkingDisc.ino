@@ -15,7 +15,8 @@ typedef enum {
   SET_MIN2,
   SET_YEAR,
   SET_MONTH,
-  SET_DAY
+  SET_DAY,
+  SHOW_TIME
 } Screen;
 
 typedef enum {
@@ -55,8 +56,8 @@ void setup() {
 
   //Initialize state
   state.screen = PARKIFY_SPLASH;
-  state.hour = 15;
-  state.minute = 35;
+  state.hour = 13;
+  state.minute = 25;
   state.year = 2017;
   state.month = 6;
   state.day = 15;
@@ -115,6 +116,7 @@ void loop() {
   }
 
   if (state_changed) {
+    Serial.println((int) state.hour);
     render();
     state_changed = false;
   }
@@ -177,6 +179,10 @@ void render() {
     case SET_DAY:
       Eink.EinkP8x16Str(13, 72, "__");
       Eink.EinkP8x16Str(14, 8, get_date_string());
+      break;
+
+    case SHOW_TIME:
+      Eink.EinkP8x16Str(14, 8, get_time_string());
       break;
 
   }
@@ -247,6 +253,11 @@ void button_controller() {
 
     case SET_MONTH:
       state.screen = SET_DAY;
+      state_changed = true;
+      break;
+
+    case SET_DAY:
+      state.screen = SHOW_TIME;
       state_changed = true;
       break;
   }
