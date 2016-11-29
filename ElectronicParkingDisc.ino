@@ -198,6 +198,10 @@ void button_controller() {
 
 //Controller for the scroller
 void scroll_controller(Direction direction) {
+
+  char minute_before;
+  char hour_before;
+  
   switch (state.screen) {
     case SCROLLER_USAGE:
       state.screen = BUTTON_USAGE;
@@ -210,6 +214,38 @@ void scroll_controller(Direction direction) {
         state.hour -= 30;
       } else if (state.hour < 0) {
         state.hour += 30;
+      }
+      state_changed = true;
+      break;
+
+    case SET_HOUR2:
+      hour_before = state.hour;
+      state.hour += direction;
+      if (direction == UP && state.hour % 10 == 0) {
+        state.hour -= 10;
+      } else if (direction == DOWN && hour_before % 10 == 0) {
+        state.hour += 10;
+      }
+      state_changed = true;
+      break;
+
+    case SET_MIN1:
+      state.minute += 10 * direction;
+      if (state.minute >= 60) {
+        state.minute -= 60;
+      } else if (state.minute < 0) {
+        state.minute += 60;
+      }
+      state_changed = true;
+      break;
+
+    case SET_MIN2:
+      minute_before = state.minute;
+      state.minute += direction;
+      if (direction == UP && state.minute % 10 == 0) {
+        state.minute -= 10;
+      } else if (direction == DOWN && minute_before % 10 == 0) {
+        state.minute += 10;
       }
       state_changed = true;
       break;
