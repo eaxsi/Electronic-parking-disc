@@ -186,11 +186,11 @@ void render() {
 
 //Returns the state's current time in the format 13:19 with trailing zeroes (e.g. 00:00)
 char *get_time_string() {
-  time_string[0] = (char) (state.hour/10 + '0');
-  time_string[1] = (char) (state.hour%10 + '0');
+  time_string[0] = (char) (state.hour / 10 + '0');
+  time_string[1] = (char) (state.hour % 10 + '0');
   time_string[2] = ':';
-  time_string[3] = (char) (state.minute/10 + '0');
-  time_string[4] = (char) (state.minute%10 + '0');
+  time_string[3] = (char) (state.minute / 10 + '0');
+  time_string[4] = (char) (state.minute % 10 + '0');
   time_string[5] = 0;
   return time_string;
 }
