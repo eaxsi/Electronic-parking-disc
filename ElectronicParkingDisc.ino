@@ -305,5 +305,47 @@ void scroll_controller(Direction direction) {
       }
       state_changed = true;
       break;
+
+    case SET_YEAR:
+      state.year += direction;
+      state_changed = true;
+      break;
+
+    case SET_MONTH:
+      state.month += direction;
+      if (state.month > 12) {
+        state.month -= 12;
+      } else if (state.month <= 0) {
+        state.month += 12;
+      }
+      state_changed = true;
+      break;
+
+    case SET_DAY:
+      state.day = wrapped_day(state.year, state.month, state.day + direction);
+      state_changed = true;
+      break;
   }
 }
+
+/* Wraps the day if it is invalid and returns it (2016, 01, 32) -> (1)
+ * This method takes leap years into account */
+char wrapped_day(int year, char month, char day) {
+  boolean is_leap_year = (year % 4 != 0) ? false : ((year % 100 != 0) ? true : ((year % 400 != 0) ? false : true));
+  char days_in_month;
+  if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+    days_in_month = 31; 
+  } else if (month == 2) {
+    days_in_month = is_leap_year ? 29 : 28;
+  } else {
+    days_in_month = 30;
+  }
+  if (day > days_in_month) {
+    return day - days_in_month;
+  } else if (day <= 0) {
+    return day + days_in_month;
+  } else {
+    return day;
+  }
+}
+
