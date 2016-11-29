@@ -12,7 +12,10 @@ typedef enum {
   SET_HOUR1,
   SET_HOUR2,
   SET_MIN1,
-  SET_MIN2
+  SET_MIN2,
+  SET_YEAR,
+  SET_MONTH,
+  SET_DAY
 } Screen;
 
 typedef enum {
@@ -24,6 +27,9 @@ struct State {
   Screen screen;
   char hour;
   char minute;
+  short year;
+  char month;
+  char day;
 } state;
 
 boolean state_changed = false;
@@ -31,6 +37,7 @@ boolean has_been_clicked = false;
 boolean has_been_scrolled_down = false;
 boolean has_been_scrolled_up = false;
 char *time_string = (char *) malloc(6 * sizeof(char)); //Used by the method get_time_string to return the state's current time as a string
+char *date_string = (char *) malloc(11 * sizeof(char)); //As above, but for the date
 
 void setup() {
   //Setup for the Eink display
@@ -45,11 +52,14 @@ void setup() {
   digitalWrite(BUTTON_PORT, HIGH);
   digitalWrite(SCROLL_DOWN_PORT, HIGH);
   digitalWrite(SCROLL_UP_PORT, HIGH);
-  
+
   //Initialize state
   state.screen = PARKIFY_SPLASH;
-  state.hour = 0;
-  state.minute = 0;
+  state.hour = 15;
+  state.minute = 35;
+  state.year = 2017;
+  state.month = 6;
+  state.day = 15;
 
   //Draw the splash screen
   render();
@@ -62,7 +72,7 @@ void setup() {
 
   //For remote controlling (mostly for debugging purposes)
   Serial.begin(9600);
-  
+
 }
 
 void loop() {
@@ -103,7 +113,7 @@ void loop() {
   if (digitalRead(SCROLL_UP_PORT) == HIGH && has_been_scrolled_up) {
     has_been_scrolled_up = false;
   }
-  
+
   if (state_changed) {
     render();
     state_changed = false;
@@ -134,32 +144,47 @@ void render() {
     case SET_HOUR1:
       Eink.DisplayChar(13, 8, '_');
       Eink.EinkP8x16Str(14, 8, get_time_string());
-      break; 
+      break;
 
-      
+
     case SET_HOUR2:
       Eink.DisplayChar(13, 16, '_');
       Eink.EinkP8x16Str(14, 8, get_time_string());
-      break; 
+      break;
 
-      
+
     case SET_MIN1:
       Eink.DisplayChar(13, 32, '_');
       Eink.EinkP8x16Str(14, 8, get_time_string());
-      break; 
+      break;
 
-      
+
     case SET_MIN2:
       Eink.DisplayChar(13, 40, '_');
       Eink.EinkP8x16Str(14, 8, get_time_string());
-      break; 
-    
+      break;
+
+    case SET_YEAR:
+      Eink.EinkP8x16Str(13, 8, "____");
+      Eink.EinkP8x16Str(14, 8, get_date_string());
+      break;
+
+    case SET_MONTH:
+      Eink.EinkP8x16Str(13, 48, "__");
+      Eink.EinkP8x16Str(14, 8, get_date_string());
+      break;
+
+    case SET_DAY:
+      Eink.EinkP8x16Str(13, 72, "__");
+      Eink.EinkP8x16Str(14, 8, get_date_string());
+      break;
+
   }
-  
+
   Eink.RefreshScreen();
 }
 
-//Returns the state's current time in the format 13:19 with trailing zeroeos (e.g. 00:00) 
+//Returns the state's current time in the format 13:19 with trailing zeroes (e.g. 00:00)
 char *get_time_string() {
   time_string[0] = (char) (state.hour/10 + '0');
   time_string[1] = (char) (state.hour%10 + '0');
@@ -168,6 +193,22 @@ char *get_time_string() {
   time_string[4] = (char) (state.minute%10 + '0');
   time_string[5] = 0;
   return time_string;
+}
+
+//Returns the state's current date in the format YYYY-MM-DD with trailing zeroes
+char *get_date_string() {
+  date_string[0] = (char) (state.year / 1000 + '0');
+  date_string[1] = (char) ((state.year / 100) % 10 + '0');
+  date_string[2] = (char) ((state.year / 10) % 10 + '0');
+  date_string[3] = (char) (state.year % 10 + '0');
+  date_string[4] = '-';
+  date_string[5] = (char) (state.month / 10 + '0');
+  date_string[6] = (char) (state.month % 10 + '0');
+  date_string[7] = '-';
+  date_string[8] = (char) (state.day / 10 + '0');
+  date_string[9] = (char) (state.day % 10 + '0');
+  date_string[10] = 0;
+  return date_string;
 }
 
 //Controller for the top button
@@ -182,15 +223,30 @@ void button_controller() {
       state.screen = SET_HOUR2;
       state_changed = true;
       break;
-      
+
     case SET_HOUR2:
       state.screen = SET_MIN1;
       state_changed = true;
       break;
 
-    
+
     case SET_MIN1:
       state.screen = SET_MIN2;
+      state_changed = true;
+      break;
+
+    case SET_MIN2:
+      state.screen = SET_YEAR;
+      state_changed = true;
+      break;
+
+    case SET_YEAR:
+      state.screen = SET_MONTH;
+      state_changed = true;
+      break;
+
+    case SET_MONTH:
+      state.screen = SET_DAY;
       state_changed = true;
       break;
   }
@@ -201,7 +257,7 @@ void scroll_controller(Direction direction) {
 
   char minute_before;
   char hour_before;
-  
+
   switch (state.screen) {
     case SCROLLER_USAGE:
       state.screen = BUTTON_USAGE;
@@ -251,4 +307,3 @@ void scroll_controller(Direction direction) {
       break;
   }
 }
-
