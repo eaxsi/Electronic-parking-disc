@@ -130,59 +130,59 @@ void render() {
   switch (state.screen) {
 
     case PARKIFY_SPLASH:
-      Eink.EinkP8x16Str(14, 8, "Parkify");
+      Eink.EinkP8x16Str(7, 72, "Parkify");
       break;
 
     case SCROLLER_USAGE:
-      Eink.EinkP8x16Str(14, 8, "SCROLL USING");
-      Eink.EinkP8x16Str(10, 8, "THE SELECTOR");
+      Eink.EinkP8x16Str(9, 54, "SCROLL USING");
+      Eink.EinkP8x16Str(5, 54, "THE SELECTOR");
       break;
 
     case BUTTON_USAGE:
-      Eink.EinkP8x16Str(14, 8, "CONTINUE USING");
-      Eink.EinkP8x16Str(10, 8, "THE TOP BUTTON");
+      Eink.EinkP8x16Str(9, 48, "CONTINUE USING");
+      Eink.EinkP8x16Str(5, 48, "THE TOP BUTTON");
       break;
 
     case SET_HOUR1:
-      Eink.DisplayChar(13, 8, '_');
-      Eink.EinkP8x16Str(14, 8, get_time_string());
+      Eink.DisplayChar(6, 76, '_');
+      Eink.EinkP8x16Str(7, 76, get_time_string());
       break;
 
 
     case SET_HOUR2:
-      Eink.DisplayChar(13, 16, '_');
-      Eink.EinkP8x16Str(14, 8, get_time_string());
+      Eink.DisplayChar(6, 84, '_');
+      Eink.EinkP8x16Str(7, 76, get_time_string());
       break;
 
 
     case SET_MIN1:
-      Eink.DisplayChar(13, 32, '_');
-      Eink.EinkP8x16Str(14, 8, get_time_string());
+      Eink.DisplayChar(6, 100, '_');
+      Eink.EinkP8x16Str(7, 76, get_time_string());
       break;
 
 
     case SET_MIN2:
-      Eink.DisplayChar(13, 40, '_');
-      Eink.EinkP8x16Str(14, 8, get_time_string());
+      Eink.DisplayChar(6, 108, '_');
+      Eink.EinkP8x16Str(7, 76, get_time_string());
       break;
 
     case SET_YEAR:
-      Eink.EinkP8x16Str(13, 8, "____");
-      Eink.EinkP8x16Str(14, 8, get_date_string());
+      Eink.EinkP8x16Str(6, 62, "____");
+      Eink.EinkP8x16Str(7, 62, get_date_string());
       break;
 
     case SET_MONTH:
-      Eink.EinkP8x16Str(13, 48, "__");
-      Eink.EinkP8x16Str(14, 8, get_date_string());
+      Eink.EinkP8x16Str(6, 102, "__");
+      Eink.EinkP8x16Str(7, 62, get_date_string());
       break;
 
     case SET_DAY:
-      Eink.EinkP8x16Str(13, 72, "__");
-      Eink.EinkP8x16Str(14, 8, get_date_string());
+      Eink.EinkP8x16Str(6, 126, "__");
+      Eink.EinkP8x16Str(7, 62, get_date_string());
       break;
 
     case SHOW_TIME:
-      Eink.EinkP8x16Str(14, 8, get_time_string());
+      Eink.EinkP8x16Str(7, 76, get_time_string());
       break;
 
   }
